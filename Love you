@@ -1,0 +1,110 @@
+
+<!DOCTYPE html>
+<html lang="fa">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>For My Love ❤️</title>
+<style>
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  min-height: 100vh;
+  background: radial-gradient(circle, #3b102d, #09000b);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  font-family: Arial, sans-serif;
+  color: #ffb5df;
+}
+h2 {
+  text-align: center;
+  font-size: 24px;
+  text-shadow: 0 0 15px #ff168b;
+}
+canvas {
+  width: 100%;
+  max-width: 650px;
+  height: auto;
+}
+p { color: #ffc6e7; }
+</style>
+</head>
+<body>
+<h2>For You, My Love ❤️</h2>
+<canvas id="heart"></canvas>
+<p>♡ I love you in every language ♡</p>
+
+<script>
+const canvas = document.getElementById("heart");
+const ctx = canvas.getContext("2d");
+
+const words = [
+"I LOVE YOU", "TE AMO", "JE T'AIME",
+"ICH LIEBE DICH", "TI AMO", "愛してる",
+"사랑해", "Я ТЕБЯ ЛЮБЛЮ", "我爱你",
+"دوستت دارم", "أحبك", "SENI SEVIYORUM",
+"EU TE AMO", "ILY", "Σ'ΑΓΑΠΩ",
+"אני אוהב אותך", "Mahal kita", "Nakupenda",
+"אני אוהבת אותך", "Я КОХАЮ ТЕБЕ",
+"אני אוהב אותך", "ฉันรักคุณ", "હું તને પ્રેમ કરું છું",
+"אני אוהבת אותך", "Kocham cię", "Volim te",
+"Ik hou van jou", "Jeg elsker dig", "Jag älskar dig",
+"Jeg elsker deg", "Szeretlek", "Te iubesc",
+"愛してるよ", "আমি তোমায় ভালোবাসি",
+"אני אוהבת אותך", "Я тебя обожаю", "LOVE YOU ❤️"
+];
+
+function draw() {
+  const dpr = window.devicePixelRatio || 1;
+  const w = Math.min(window.innerWidth, 650);
+  const h = Math.min(window.innerHeight * 0.62, 540);
+
+  canvas.width = w * dpr;
+  canvas.height = h * dpr;
+  canvas.style.width = w + "px";
+  canvas.style.height = h + "px";
+  ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+
+  ctx.clearRect(0, 0, w, h);
+  ctx.textAlign = "center";
+  ctx.textBaseline = "middle";
+
+  const scale = Math.min(w / 36, h / 34);
+  const tNow = Date.now() / 1000;
+
+  for (let i = 0; i < 260; i++) {
+    const t = i * Math.PI * 2 / 260;
+    const x = 16 * Math.pow(Math.sin(t), 3);
+    const y = -(13 * Math.cos(t) -
+      5 * Math.cos(2*t) -
+      2 * Math.cos(3*t) -
+      Math.cos(4*t));
+
+    const px = w / 2 + x * scale * 0.92;
+    const py = h / 2 + y * scale * 0.92;
+
+    ctx.font = "bold " + Math.max(7, scale * 0.75) + "px Arial";
+    ctx.fillStyle = `hsl(${320 + 20*Math.sin(tNow+i/8)},100%,75%)`;
+    ctx.shadowColor = "#ff168b";
+    ctx.shadowBlur = 8;
+    ctx.fillText(words[i % words.length], px, py);
+  }
+
+  ctx.shadowBlur = 0;
+  ctx.fillStyle = "#fff";
+  ctx.font = "bold " + Math.max(15, scale * 1.6) + "px Arial";
+  ctx.shadowColor = "#ff168b";
+  ctx.shadowBlur = 20;
+  ctx.fillText("I LOVE YOU ❤️", w/2, h/2);
+  ctx.shadowBlur = 0;
+  requestAnimationFrame(draw);
+}
+
+draw();
+window.addEventListener("resize", draw);
+</script>
+</body>
+</html>
